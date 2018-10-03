@@ -1,0 +1,624 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <title>TypeScript for the C# Dev</title>
+    <meta charset="utf-8">
+    <style>
+      @import url(https://fonts.googleapis.com/css?family=Yanone+Kaffeesatz);
+      @import url(https://fonts.googleapis.com/css?family=Droid+Serif:400,700,400italic);
+      @import url(https://fonts.googleapis.com/css?family=Ubuntu+Mono:400,700,400italic);
+
+      body { font-family: 'Droid Serif'; }
+      h1, h2, h3 {
+        font-family: 'Yanone Kaffeesatz';
+        font-weight: normal;
+      }
+      .remark-code, .remark-inline-code { font-family: 'Ubuntu Mono'; }
+      .remark-slide-content { font-size: 26px; }
+      .remark-code { font-size: 24px; }
+    </style>
+  </head>
+  <body>
+    <textarea id="source">
+
+class: center, middle
+
+# TypeScript for the C\# Dev
+
+---
+
+class: center, middle
+
+# Welcome!
+
+???
+
+* Happy to be here this evening to talk with you all about TypeScript
+* Thanks to James and Rich for everything that they do
+* And thanks to all of the sponsors for all of their support
+
+---
+
+class: center, middle
+
+# Questions
+
+---
+
+class: center, middle
+
+# How confident are you when developing with JavaScript?
+
+---
+
+class: center, middle
+
+# Who's already using TypeScript?
+
+---
+
+class: center, middle
+
+# Who's planning to use TypeScript with Angular (v2+)?
+
+---
+
+class: center, middle
+
+# Who's planning to use TypeScript <br/> with something other than Angular?
+
+---
+
+# Agenda/Goals
+
+* Short introduction to TypeScript
+* How to get started using TypeScript
+* What problems does (or doesn't) TypeScript solve?
+* Do you still need to learn JavaScript?
+
+???
+
+"Will TypeScript solve all of your problems? What exactly is TypeScript and how does it work? How do you get started with using TypeScript? Will it keep you from having to take the time to gain a deep understanding of JavaScript?
+
+In this talk, we'll take a look at how TypeScript can help ease the development of JavaScript-based applications. We'll review what will feel familiar to you as a C# developer, and what might surprise you. And we'll take a look at some of the common mistakes that developers make when learning TypeScript (and by extension, JavaScript)."
+
+---
+
+class: center, middle
+
+# Who's written this JavaScript before?
+
+```
+alert('Hello world!');
+```
+
+---
+
+class: center, middle
+
+# Or maybe one of these variants?
+
+```
+document.write('Hello world!');
+```
+
+```
+console.log('Hello world!');
+```
+
+---
+
+class: center, middle
+
+# Congrats!
+
+## You've written your first TypeScript!
+
+---
+
+class: center, middle
+
+# \#1: TypeScript is a superset of JavaScript
+
+???
+
+The TypeScript core team loves JavaScript!
+They're not trying to change JavaScript
+They always attempt to follow standards
+
+---
+
+# Question: Which of these function calls is valid?
+
+### `app.js`
+
+```
+function add(param1, param2) {
+  return param1 + param2;
+}
+
+const result1 = add(1, 2);
+const result2 = add('asdf', 'asdf');
+const result3 = add(true, false);
+const result4 = add({}, {});
+const result5 = add();
+const result6 = add(1);
+const result7 = add(1, 2, 3);
+```
+
+---
+
+# Answer: All of them!
+
+### `app.js`
+
+```
+function add(param1, param2) {
+  return param1 + param2;
+}
+
+const result1 = add(1, 2); // 3
+const result2 = add('asdf', 'asdf'); // asdfasdf
+const result3 = add(true, false); // 1
+const result4 = add({}, {}); // [object Object][object Object]
+const result5 = add(); // NaN
+const result6 = add(1); // NaN
+const result7 = add(1, 2, 3); // 3
+```
+
+---
+
+# Question: Now which of these function calls is valid?
+
+### `app.ts`
+
+```
+function add(param1: number, param2: number) {
+  return param1 + param2;
+}
+
+const result1 = add(1, 2);
+const result2 = add('asdf', 'asdf');
+const result3 = add(true, false);
+const result4 = add({}, {});
+const result5 = add();
+const result6 = add(1);
+const result7 = add(1, 2, 3);
+```
+
+---
+
+# Answer: Only the first!
+
+### `app.ts`
+
+```
+function add(param1: number, param2: number) {
+  return param1 + param2;
+}
+
+* const result1 = add(1, 2);
+const result2 = add('asdf', 'asdf');
+const result3 = add(true, false);
+const result4 = add({}, {});
+const result5 = add();
+const result6 = add(1);
+const result7 = add(1, 2, 3);
+```
+
+---
+
+class: center, middle
+
+# \#2: TypeScript provides [optional] static typing
+
+???
+
+You don't need to use TypeScript's static typing... but everyone does :)
+
+---
+
+# Async/Await
+
+```
+async function fetchAsync() {
+  const response = await fetch('https://api.github.com');
+  return response.json();
+}
+
+fetchAsync()
+  .then(data => console.log(data))
+  .catch(error => console.log(error.message));
+```
+
+---
+
+# Object Rest and Spread
+
+```
+const person = {
+  firstName: 'Gandalf',
+  age: 2019,
+  email: 'graywizard1@hotmail.com'
+};
+
+const { firstName, ...other } = person;
+
+// const firstName: string
+
+// const other: { age: number; email: string; }
+
+const newPerson = { firstName, ...other };
+
+// const newPerson: { age: number; email: string; firstName: string; }
+```
+
+---
+
+# Decorators
+
+### Angular Component
+
+```
+import { Component } from '@angular/core';
+
+@Component({
+  selector: 'app-root',
+  templateUrl: './app.component.html',
+  styleUrls: ['./app.component.css']
+})
+export class AppComponent {
+  title = 'angular-cli';
+}
+```
+
+---
+
+class: center, middle
+
+# \#3: TypeScript enables features from the future
+
+---
+
+class: center, middle
+
+# To recap, TypeScript Is...
+
+### 1) Superset of JavaScript
+### 2) Optional static typing
+### 3) Features from the future
+
+---
+
+class: center, middle
+
+# Demo: First Look at TypeScript
+
+???
+
+In VS Code...
+
+* VS Code includes the TS language service, but not the TS compiler
+  * Easiest way to install it is to use NPM
+* Add a tsconfig file to your project
+  * `tsc --init`
+* Then build your project using CMD+SHIFT+B
+  * Select a build task
+  * You can configure a default build task by running "Configure Default Build Task"
+* Lower right hand corner will show you the version that you're using
+  * Clicking on it will allow you to select a version
+* You can use NPM to install a local copy
+  * `npm init -y`
+  * `npm install typescript --save-dev`
+  * Be sure to use `npx tsc` from the command line!
+* You can configure VS Code to use a different path for its language service
+  * Add a `settings.json` file in the `.vscode` folder in the root of your project
+  * `{ "typescript.tsdk": "node_modules/typescript/lib" }`
+
+https://code.visualstudio.com/docs/languages/typescript
+
+---
+
+# Getting Started in Visual Studio (Proper)
+
+## ASP.NET MVC Projects
+
+In 2017 v15.3...
+
+* Add a TypeScript file (.ts) to your project
+* Right click on the project node in Solution Explorer
+* Click Properties
+* Go to the TypeScript Build tab
+* Change TypeScript version to the desired version or "use latest available" to always default to the newest version installed
+
+https://github.com/Microsoft/TypeScript/wiki/Updating-TypeScript-in-Visual-Studio-2017
+
+---
+
+# Getting Started in Visual Studio (Proper)
+
+## ASP.NET Core Projects
+
+* Use NPM to manage dependencies to define tasks
+* Use the Visual Studio Task Runner Explorer to run NPM tasks when building your project
+* Or edit your project's .csproj file (to not rely upon VS)
+
+```xml
+<Target Name="MyPreCompileTarget" BeforeTargets="Build">
+  <Exec Command="gulp clean" />
+</Target>
+```
+
+https://docs.microsoft.com/en-us/aspnet/core/client-side/using-gulp?view=aspnetcore-2.1
+
+---
+
+# Other Runtimes, Frameworks, and libraries
+
+* Node
+  * Use NPM to install TypeScript
+  * Use NPM to define a task for building your app
+* Angular
+  * Angular CLI
+* React
+  * Create-React-App-TypeScript
+  * https://github.com/wmonk/create-react-app-typescript
+* Vue
+  * Vue CLI
+
+---
+
+# TypeScript Configuration
+
+* Use `tsc --init` to generate a `tsconfig.json` file
+* Common options
+  * `target`
+  * `module`
+  * `allowJs`
+  * `checkJs`
+  * `sourceMap`
+  * `outFile`
+  * `outDir`
+
+---
+
+# The Promise
+
+* Will TypeScript solve all of my problems?
+* Finally... I don't actually have to learn JavaScript!
+
+---
+
+class: center, middle
+
+# Sorry... No
+
+---
+
+# What Problems Does TypeScript Solve?
+
+* Making coding intentions more explicit
+  * Consistent data typing
+  * Predictable `null` and `undefined` handling
+* Improved developer experience
+  * Symbol-based navigation
+  * Code discoverability
+
+---
+
+# What Problems Doesn't TypeScript Solve?
+
+* Runtime behavior
+  * TypeScript doesn't change the runtime behavior of JavaScript code
+  * You still need to know JS as a language and the platform that your code is running on
+* Lack of richer primitive data types
+* JavaScript oddities
+
+---
+
+# How Does TypeScript Help C\# Developers?
+
+* Tooling enhancements
+  * IntelliSense
+  * Symbol-based navigation and renaming
+  * References and Implementations CodeLens
+  * Auto Imports
+* Class extensions
+  * Private members
+  * Read only members
+  * Abstract classes and members
+* Interfaces
+* Generics
+* Non-nullable types
+
+???
+
+* Tooling enhancements
+  * IntelliSense
+  * Symbol-based navigation and renaming
+  * References CodeLens
+    * `"typescript.referencesCodeLens.enabled": true`
+  * Implementations CodeLens
+    * `"typescript.implementationsCodeLens.enabled": true`  
+  * Auto Imports
+    * Requires TS 2.6+
+    * Enabled by default
+
+---
+
+# The Danger Zone
+
+## Demo: How can these features give you a false sense of security?
+
+???
+
+* By default, the TS compiler will still generate JS
+  * Show how to change this via configuration
+* Classes
+  * Not the same as C# classes
+    * JS class syntax is syntactic sugar over the prototypal inheritance
+  * Private members
+    * Are accessible by those writing plain JS
+  * Abstract classes or members
+    * Abstract classes can be instantiated via plain JavaScript
+
+---
+
+# Common JavaScript Pitfalls
+
+## What are the common JS pitfalls or misunderstandings for C# devs?
+
+* Data types
+  * Still just `string`, `number`, and `boolean` primitive data types
+    * Also `null`, `undefined`, and `Symbol` primitive data types
+    * And `Object`
+  * Libraries help fill the gaps
+* Comparison operators
+  * Use `===` and `!==` not `==` and `!=`
+* Variable scoping
+  * Declaring variables with `var` scopes them to the function
+  * Use `let` and `const` instead of `var`
+
+???
+
+* Data types
+  * Still just `string`, `number`, and `boolean` primitive data types
+    * Also `null`, `undefined`, and `Symbol` primitive data types
+    * And `Object`
+  * Libraries help fill the gaps
+    * https://github.com/MikeMcl/decimal.js/
+* Comparison operators
+  * Use `===` and `!==` not `==` and `!=`
+* Variable scoping
+  * Declaring variables with `var` scopes them to the function
+  * Use `let` and `const` instead of `var`
+
+---
+
+# Comparison Operators
+
+## Some examples from MDN...
+
+```
+1    ==  1         // true
+'1'  ==  1         // true
+1    == '1'        // true
+0    == false      // true
+0    == null       // false
+var object1 = {'key': 'value'}, object2 = {'key': 'value'}; 
+object1 == object2 //false
+0    == undefined  // false
+null == undefined  // true
+1 !=   2     // true
+1 !=  '1'    // false
+1 !=  "1"    // false
+1 !=  true   // false
+0 !=  false  // false
+```
+
+---
+
+# Variable Scoping
+
+## Using `var`...
+
+```
+var i = 100;
+
+for (var i = 0; i < 10; i++) {
+  console.log(i);
+}
+
+console.log(i);
+```
+
+---
+
+# Variable Scoping
+
+## Using `const` and `let`...
+
+```
+const i = 100;
+
+for (let i = 0; i < 10; i++) {
+  console.log(i);
+}
+
+console.log(i);
+```
+
+---
+
+class: center, middle
+
+# Do You Still Need to Learn JavaScript?
+
+---
+
+class: center, middle
+
+# JavaScript for C# Dev Resources
+
+---
+
+# Documentation
+
+* MDN Web Docs
+  * https://developer.mozilla.org/en-US/
+
+---
+
+# Courses
+
+* JavaScript for C# Developers
+  * By Shawn Wildermuth
+  * https://www.pluralsight.com/courses/js4cs
+
+---
+
+# Blog Posts
+
+* JavaScript for C# Developers
+  * https://www.blewis.io/javascript-for-csharp-developers
+* Object-oriented JavaScript for C# Developers
+  * https://www.barbarianmeetscoding.com/blog/2014/08/20/object-oriented-javascript-for-c-sharp-developers/
+* What’s the Difference Between Class & Prototypal Inheritance?
+  * https://medium.com/javascript-scene/master-the-javascript-interview-what-s-the-difference-between-class-prototypal-inheritance-e4cd0a7562e9
+
+---
+
+class: center, middle
+
+# Should I Always Use TypeScript?
+
+---
+
+class: center, middle
+
+# Questions?
+
+---
+
+class: center, middle
+
+# Thanks!
+
+### James Churchill
+### Treehouse: https://teamtreehouse.com/jameschurchill
+### Twitter: @SmashDev
+### GitHub: smashdevcode
+
+    </textarea>
+    <script src="remark/remark-latest.min.js">
+    </script>
+    <script>
+      var slideshow = remark.create({
+        ratio: '16:9',
+        highlightLanguage: 'javascript',
+        highlightLines: true,
+        highlightSpans: true,
+      });
+    </script>
+  </body>
+</html>
